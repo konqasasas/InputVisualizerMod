@@ -1,2 +1,27 @@
-# InputVisualizerMod
-Minecraft 1.12.2 Forge mod — Visualize keyboard and mouse inputs on the game screen
+# Input Visualizer Modとは？
+[こちらのOBS overlay](https://github.com/girlglock/input-overlay) に影響を受けた、Minecraft 1.12.2 で画面上にキーやマウスの入力情報を表示するクライアントサイドModです。
+以下のように、キーがアニメーション付きでオンオフしたり、マウスの軌道が表示されたりします。また、複数のレイアウトから選択することもできます。
+
+https://github.com/user-attachments/assets/a46cce49-0a75-43a2-965b-97fcec0f3f6f
+
+さらに、後述のwebページを利用することで、オリジナルのレイアウトを作成することもできます。
+
+
+# ゲーム内設定
+ゲーム内キー設定から、settingsを開くキーを設定します
+そのキーを押すと設定画面が開きます。デフォルトだと4つのプリセットから選べます
+PackとSelectからパックを選び、Edit GroupsでGUIの位置と大きさを変更します
+
+
+# webページでのカスタムレイアウトの作成
+このページからカスタムレイアウトを作成可能です。
+項目が多すぎるので解説する気が起きません...
+とりあえず、感度を変えたい場合だけ紹介します。
+mousepad・mousepadを選択し、画面右上部のTrailタブを選択。その中のsensitivityから変更できます。
+
+
+# カスタムレイアウトをゲーム内に持っていく方法
+webページでカスタムレイアウトを設定したら、ページ右上の「Export .ivizpack」をクリックします。
+すると、.ivizpackフォルダがダウンロードされます。
+それを、minecraft/input_visualizer/pack内に入れます。
+そうすると、ゲーム内からそのレイアウトを選べるようになります。
