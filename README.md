@@ -21,7 +21,7 @@ PackとSelectからパックを選び、Edit GroupsでGUIの位置と大きさ�
 
 
 ## webページでのカスタムレイアウトの作成
-このページからカスタムレイアウトを作成可能です。
+[このページ](https://konqasasas.github.io/InputVisualizer_Web_Editor/)からカスタムレイアウトを作成可能です。
 
 項目が多すぎるので解説する気が起きません...
 
