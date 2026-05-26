@@ -1,0 +1,42 @@
+package com.konqasasas.inputvisualizer.model;
+import com.google.gson.*; import java.util.*;
+
+public final class Model {
+    private Model() {}
+    public enum ElementKind { GROUP, INPUT, MOUSE_PAD, UNKNOWN }
+    public enum Anchor { TOP_LEFT, TOP_CENTER, TOP_RIGHT, CENTER_LEFT, CENTER, CENTER_RIGHT, BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT;
+        public static Anchor from(String s){ if(s==null)return TOP_LEFT; try{return valueOf(s.trim().toUpperCase().replace('-','_'));}catch(Exception e){return TOP_LEFT;} } }
+    public enum InputKind { KEY_BINDING, KEY_CODE, MOUSE_BUTTON, INVALID }
+    public enum State { NORMAL, PRESSED, DISABLED }
+    public enum Shape { RECTANGLE, ROUNDED_RECTANGLE, CIRCLE; public static Shape from(String s){return parse(values(),s,RECTANGLE);} }
+    public enum FillMode { FILLED, OUTLINE, FILLED_OUTLINE, NONE; public static FillMode from(String s){return parse(values(),s,FILLED);} }
+    public enum ClipShape { VISUAL_SHAPE, RECTANGLE; public static ClipShape from(String s){return parse(values(),s,VISUAL_SHAPE);} }
+    public enum BackgroundKind { NONE, CHECKERBOARD, GRID, DOTS, IMAGE; public static BackgroundKind from(String s){return parse(values(),s,NONE);} }
+    public enum ImageFit { COVER, CONTAIN, STRETCH, CENTER, TILE; public static ImageFit from(String s){return parse(values(),s,COVER);} }
+    public enum ScrollMode { FIXED, WORLD; public static ScrollMode from(String s){return parse(values(),s,FIXED);} }
+    public enum PressAnim { NONE, SCALE, OFFSET, SCALE_OFFSET, GLOW_PULSE; public static PressAnim from(String s){return parse(values(),s,NONE);} }
+    public enum ReleaseEffect { NONE, GLOW_FADE, BORDER_FADE; public static ReleaseEffect from(String s){return parse(values(),s,NONE);} }
+    public enum TrailMode { WRAP, PAN; public static TrailMode from(String s){return parse(values(),s,WRAP);} }
+    public enum FollowMode { INSTANT, SMOOTH; public static FollowMode from(String s){return parse(values(),s,INSTANT);} }
+    public enum ResetMode { NONE, CENTER_ON_EMPTY; public static ResetMode from(String s){return parse(values(),s,NONE);} }
+    public enum Smoothing { NONE, CATMULL_ROM; public static Smoothing from(String s){return parse(values(),s,CATMULL_ROM);} }
+    public enum CursorKind { NONE, DOT, CIRCLE, CURSOR_ARROW; public static CursorKind from(String s){return parse(values(),s,DOT);} }
+    public enum ColorMode { FIXED, AGE_GRADIENT, BUTTON_STATE; public static ColorMode from(String s){return parse(values(),s,FIXED);} }
+    private static <T extends Enum<T>> T parse(T[] a,String s,T d){ if(s==null)return d; String n=s.trim().replace('-','_').replace(' ','_'); StringBuilder sb=new StringBuilder(); for(int i=0;i<n.length();i++){ char ch=n.charAt(i); if(Character.isUpperCase(ch)&&i>0&&n.charAt(i-1)!='_') sb.append('_'); sb.append(Character.toUpperCase(ch)); } n=sb.toString(); if("ROUNDEDRECTANGLE".equals(n)) n="ROUNDED_RECTANGLE"; if("VISUALSHAPE".equals(n)) n="VISUAL_SHAPE"; if("MOUSEPAD".equals(n)) n="MOUSE_PAD"; for(T t:a) if(t.name().equals(n)) return t; return d; }
+
+    public static final class Layout { public int referenceWidth=854, referenceHeight=480; public final ArrayList<Element> roots = new ArrayList<>(); public final ArrayList<String> warnings = new ArrayList<>(); public JsonObject theme = new JsonObject(); }
+    public static final class Element { public String id=""; public ElementKind kind=ElementKind.UNKNOWN; public Anchor anchor=Anchor.TOP_LEFT; public double x,y,width=40,height=20,scale=1,opacity=1; public int zIndex, order; public ArrayList<Element> children = new ArrayList<>(); public Input input = new Input(); public String label=null; public InputStyle inputStyle = new InputStyle(); public MousePadStyle mousePad = new MousePadStyle(); public GameAdjust gameAdjust = new GameAdjust(); public boolean disabled; }
+    public static final class Input { public InputKind kind=InputKind.INVALID; public String name=""; public int keyCode=-1, mouseButton=-100; public String autoLabel="?"; }
+    public static final class StateStyle { public int fill=0xAA202020,border=0xCCFFFFFF,text=0xFFFFFFFF; public Shape shape=null; public FillMode fillMode=null; public Double cornerRadius=null,borderWidth=null; public double opacity=1,scale=1,offsetX=0,offsetY=0; public Boolean textShadow=null; public Glow glow = new Glow(); }
+    public static final class Glow { public boolean enabled=false; public int color=0xFFFFFFFF; public double alpha=.25,size=5; }
+    public static final class Shadow { public boolean enabled=false; public double offsetX=1, offsetY=1, alpha=.35; public int color=0xFF000000; }
+    public static final class Press { public boolean enabled=false; public PressAnim type=PressAnim.NONE; public long durationMs=90; public double scale=.94, offsetX=0, offsetY=0; }
+    public static final class Release { public ReleaseEffect type=ReleaseEffect.NONE; public long durationMs=180; public int color=0xFFFFFFFF; public double alpha=.45,size=14; }
+    public static final class InputStyle { public String styleRef=""; public Shape shape=Shape.ROUNDED_RECTANGLE; public FillMode fillMode=FillMode.FILLED_OUTLINE; public double cornerRadius=6,borderWidth=1,fontScale=1,textOffsetX=0,textOffsetY=0; public String hAlign="center",vAlign="center"; public boolean textShadow=true; public Shadow shadow=new Shadow(); public Glow glow=new Glow(); public StateStyle normal=new StateStyle(), pressed=new StateStyle(), disabled=new StateStyle(); public Press press=new Press(); public Release release=new Release(); public InputStyle(){ normal.fill=0xCC141820; normal.border=0xCCEAF2FF; normal.text=0xFFFFFFFF; pressed.fill=0xFFF4F7FF; pressed.border=0xFFFFFFFF; pressed.text=0xFF111318; pressed.glow.enabled=false; pressed.glow.color=0xFFFFFFFF; pressed.glow.alpha=0; pressed.glow.size=0; disabled.fill=0xCC3D1F2A; disabled.border=0xCCFF6A8A; disabled.text=0xFFFFD6DF; disabled.opacity=.78; shadow.enabled=true; shadow.offsetX=2; shadow.offsetY=2; shadow.color=0xFF000000; shadow.alpha=.28; press.enabled=true; press.type=PressAnim.SCALE_OFFSET; press.durationMs=70; press.scale=.94; press.offsetY=0; release.type=ReleaseEffect.NONE; release.durationMs=0; release.color=0xFFFFFFFF; release.alpha=0; release.size=0; } }
+    public static final class GameAdjust { public boolean enabled=false, allowMove=true, allowScale=true, allowOpacity=true, lockAnchor=true; public String storageKey=""; public double minScale=.5,maxScale=3.0; }
+    public static final class MousePadStyle { public String styleRef=""; public Shape shape=Shape.ROUNDED_RECTANGLE; public FillMode fillMode=FillMode.FILLED_OUTLINE; public ClipShape clipShape=ClipShape.VISUAL_SHAPE; public double opacity=1,cornerRadius=10,borderWidth=1,contentPadding=4; public int fillColor=0xBB0F1218,borderColor=0x88FFFFFF; public Background background=new Background(); public Trail trail=new Trail(); }
+    public static final class Background { public BackgroundKind type=BackgroundKind.CHECKERBOARD; public ImageFit fit=ImageFit.COVER; public ScrollMode scroll=ScrollMode.FIXED; public double opacity=.35,cellSize=10,gridSize=12,lineWidth=1,spacing=10,dotSize=2; public int colorA=0x800B0F16,colorB=0x80111722,lineColor=0x33FFFFFF,dotColor=0x33FFFFFF; public String path=""; public boolean fallbackCheckerboard=false; }
+    public static final class Trail { public boolean enabled=true,line=true,glow=false,dots=false,cursor=true; public TrailMode mode=TrailMode.WRAP; public FollowMode follow=FollowMode.INSTANT; public ResetMode reset=ResetMode.CENTER_ON_EMPTY; public Smoothing smoothing=Smoothing.CATMULL_ROM; public CursorKind cursorKind=CursorKind.DOT; public ColorMode colorMode=ColorMode.FIXED; public double sensitivity=1.0,lifetimeMs=850,baseWidth=3.0,tailWidth=.15,dotSpacing=20,dotSize=2.4,cursorSize=5.0,deadZoneRatio=.6,followResponsiveness=9; public int color=0xFFEAF6FF, glowColor=0xFFBBDFFF, tailColor=0x55EAF6FF, dotColor=0, cursorColor=0; public double glowWidthMultiplier=1.0; public int maxPoints=1024,maxRenderedSamples=2048,maxSmoothingSamples=2048; public Highlight left=new Highlight(0xFF9EDBFF), right=new Highlight(0xFFFFC08A); }
+    public static final class Highlight { public int color; public double widthMultiplier=1.10,glowMultiplier=1.0; public Highlight(int c){color=c;} }
+    public static double clamp(double v,double a,double b){return v<a?a:v>b?b:v;} public static int clampi(int v,int a,int b){return v<a?a:v>b?b:v;}
+}
