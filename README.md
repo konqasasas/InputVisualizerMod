@@ -8,7 +8,7 @@
 
 https://github.com/user-attachments/assets/a934156e-afe4-4254-852a-a072dc02d406
 
-
+※イラストはAI生成
 さらに、後述のwebページを利用することで、オリジナルのレイアウトを作成することもできます。
 
 ## ダウンロード方法
