@@ -1,7 +1,5 @@
 # Input Visualizer Modとは？
 
-[こちら](https://www.curseforge.com/minecraft/mc-mods/input-visualizer-mod)からのDLをお勧めします。
-
 [こちらのOBS overlay](https://github.com/girlglock/input-overlay) に影響を受けた、Minecraft 1.12.2 で画面上にキーやマウスの入力情報を表示するクライアントサイドModです。
 
 以下のように、キーがアニメーション付きでオンオフしたり、マウスの軌道が表示されたりします。
@@ -16,7 +14,7 @@ https://github.com/user-attachments/assets/a934156e-afe4-4254-852a-a072dc02d406
 さらに、後述のwebページを利用することで、オリジナルのレイアウトを作成することもできます。
 
 ## ダウンロード方法
-画面右の Releases をクリックし、.jar ファイルをダウンロードしてください
+[こちら](https://www.curseforge.com/minecraft/mc-mods/input-visualizer-mod/files/all?page=1&pageSize=20&showAlphaFiles=hide)からダウンロードできます。
 
 ## ゲーム内設定
 ゲーム内キー設定から、settingsを開くキーを設定します
